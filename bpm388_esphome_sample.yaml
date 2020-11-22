@@ -1,0 +1,31 @@
+esphome:
+# ...
+
+  includes:
+    - bpm388.h
+  libraries:
+    - "Adafruit BMP3XX library"
+
+#...
+
+i2c:
+  sda: D4
+  scl: D3
+  scan: True
+  id: bus_a
+
+# Example configuration entry
+sensor:
+- platform: custom
+  lambda: |-
+    auto my_sensor = new BMP3XXSensor();
+    App.register_component(my_sensor);
+    return {my_sensor->temperature_sensor, my_sensor->pressure_sensor};
+
+  sensors:
+  - name: "BMP388 Temperature Sensor"
+    unit_of_measurement: °C
+    accuracy_decimals: 1
+  - name: "BMP388 Pressure Sensor"
+    unit_of_measurement: hPa
+    accuracy_decimals: 2
